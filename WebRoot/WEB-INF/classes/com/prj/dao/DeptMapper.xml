@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	为这个mapper指定一个唯一的namespace跟接口名一致
+ -->
+<mapper namespace="com.prj.dao.IDeptDao">
+    
+    <resultMap type="com.prj.bean.Dept" id="DeptResultMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="loc" column="loc" />
+	</resultMap>
+    
+    <!-- 
+    	id属性是唯一标识
+    	parameterType:表示的是增加方法的参数类型
+    	resultType:返回值类型
+    	id名称必须跟接口中的方法名对应起来
+     -->
+    <select id="addDept" parameterType="com.prj.bean.Dept" resultType="boolean">
+        insert into dept(name,loc)values(#{name},#{loc})
+    </select>
+    <select id="delDept" parameterType="int" resultType="boolean">
+        delete from dept where id=#{id}
+    </select>
+    <select id="updDept" parameterType="com.prj.bean.Dept" resultType="boolean">
+        update dept set name=#{name},loc=#{loc} where id=#{id}
+    </select>
+    <select id="queryDeptById" parameterType="int" resultType="com.prj.bean.Dept">
+        select * from dept where id=#{id}
+    </select>
+    <select id="queryAllDept" resultType="java.util.List" resultMap="DeptResultMap">
+        select * from dept
+    </select>
+    <select id="queryDeptByPage" resultType="java.util.List" resultMap="DeptResultMap" parameterType="com.prj.bean.Page"> 
+        select * from dept where 1=1
+        <if test="loc!=null">
+            and loc like #{loc}
+        </if>
+        limit #{firstCount},#{maxResult}           
+    </select>
+    
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
